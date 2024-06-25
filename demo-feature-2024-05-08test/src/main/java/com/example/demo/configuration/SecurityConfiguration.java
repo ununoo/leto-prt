@@ -41,10 +41,10 @@ public class SecurityConfiguration{
                                 "/service",
                                 "/team",
                                 "/manual",
-                                "/member/register",
-                                "/member/email-auth",
-                                "/member/find/password",
-                                "/member/reset/password"
+                                "/register",
+                                "/email-auth",
+                                "/find_password",
+                                "/reset_password"
                         )
                         .permitAll()
                         .requestMatchers("/css/**",
@@ -62,7 +62,7 @@ public class SecurityConfiguration{
                         .defaultSuccessUrl("/index_login_success")
                         .permitAll())
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true))
                 .exceptionHandling((exception) -> exception
