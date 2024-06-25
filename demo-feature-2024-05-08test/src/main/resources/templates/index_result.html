@@ -1190,6 +1190,7 @@
                             document.getElementById('urlInput').value = pageUrl();
                         }
                         function clickAlert() {
+                            var inputValue = document.getElementById('urlInput').value;
                             if (pageUrl()==="http://localhost:8080/index_result") {
                                 alert("검색후 즐겨찾기하실수 있습니다.");
                                 return false;
@@ -1395,16 +1396,16 @@
                         <a class="active" href="/">
                             Home
                         </a>
-                        <a class="" href="about">
-                            About
-                        </a>
-                        <a class="" href="service">
+                        <a class="" href="service_success">
                             Analysis
                         </a>
-                        <a class="" href="why">
-                            Why Us
+                        <a class="" href="about_success">
+                            About
                         </a>
-                        <a class="" href="team">
+                        <a class="" href="manual_success">
+                            Manual
+                        </a>
+                        <a class="" href="team_success">
                             Team
                         </a>
                     </div>

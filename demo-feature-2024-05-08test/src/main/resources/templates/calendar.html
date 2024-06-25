@@ -739,7 +739,6 @@
                                 document.getElementById('hiddenSubmit').click(); // 숨겨진 submit 버튼 클릭
                             }
                         });
-
                     </script>
                 </div>
             </div>
@@ -751,15 +750,14 @@
                 <script th:inline="javascript">
                     document.getElementById('urlInput').value = pageUrl();
                     function clickAlert() {
-                        var inputValue = document.getElementById('urlInput').value;
                         if (pageUrl()==="http://localhost:8080/calendar") {
                             alert("검색후 즐겨찾기하실수 있습니다.");
                             return false;
                         } else if (pageUrl()===[[${url1}]]||pageUrl()===[[${url2}]]||pageUrl()===[[${url3}]]||pageUrl()===[[${url4}]]||pageUrl()===[[${url5}]]) {
-                            alert("동일한 검색조건은 즐겨찾기하실 수없습니다.");
+                            alert("동일한 검색조건은 즐겨찾기하실 수없습니다.")
                             return false;
                         }else if ([[${isTrueAll}]]) {
-                            alert("즐겨찾기는 5개까지 추가가능합니다.");
+                            alert("즐겨찾기는 5개까지 추가가능합니다.")
                             return false;
                         }else {
                             alert("즐겨찾기에 추가 되었습니다.");
@@ -967,7 +965,7 @@
                 console.log(/*[[${timeunit}]]*/);
 
                 // timeunit이 "month"인 경우 년도와 월까지만 사용
-                if (/*[[${timeunit}]]*/ "date" === "month" && typeof dateValue === 'string') {
+                if ([[${timeunit}]] === "month" && typeof dateValue === 'string') {
                     dateValue = dateValue.slice(0, 7);
                 }
                 console.log("Adding date:", dateValue, "Title:", titles[i]);

@@ -74,10 +74,7 @@ public class MemberController {
                            @RequestParam(name = "age", required = false, defaultValue = "") String[] age,
                            @RequestParam(name = "url", required = false, defaultValue = "") String url,
                            Model model) throws JSONException {
-
-
         String username = principal.getName();
-
 
         model.addAttribute("username", username);
 
@@ -98,6 +95,8 @@ public class MemberController {
         }
 
         String favoriteURL = "";
+
+        model.addAttribute("timeunit", timeunit);
 
         for (int i = 0; i < memberService.getDbCalFavoriteURL(username).size(); i++) {
             favoriteURL = memberService.getDbCalFavoriteURL(username).get(i);
