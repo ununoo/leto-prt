@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,22 +33,22 @@ public class MemberController {
     private final MemberService memberService;
     private JSONObject[] resultsArray;
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login() {
         return "member/login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public String loginPost() {
         return "member/login";
     }
 
-    @GetMapping("/member/register")
+    @GetMapping("member/register")
     public String register() {
         return "member/register";
     }
 
-    @PostMapping("/member/register")
+    @PostMapping("member/register")
     public String registerSubmit(Model model, MemberInput parameter) {
         boolean result = memberService.register(parameter);
 
@@ -57,7 +59,7 @@ public class MemberController {
         //그리고 이메일을 보낸다
     }
 
-    @GetMapping("/calendar")
+    @GetMapping("calendar")
     public String calendar(Principal principal,
                            @RequestParam(name = "query1", required = false, defaultValue = "") String query1,
                            @RequestParam(name = "query2", required = false, defaultValue = "") String query2,
@@ -132,7 +134,7 @@ public class MemberController {
         return "calendar";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("mypage")
     public String mypage(Principal principal,
                          Model model) {
         String username = principal.getName();
@@ -145,7 +147,7 @@ public class MemberController {
         return "mypage";
     }
 
-    @GetMapping("/changeName")
+    @GetMapping("changeName")
     public String changeName(Principal principal, Model model){
         String username = principal.getName();
         String user_name = memberService.getName(username);
@@ -156,7 +158,7 @@ public class MemberController {
         return "changeName";
     }
 
-    @PostMapping("/changeName")
+    @PostMapping("changeName")
     public String changeNamePost(Principal principal,
                                  @RequestParam(name = "name", required = false, defaultValue = "") String name,
                                  Model model){
@@ -173,7 +175,7 @@ public class MemberController {
         return "changeName";
     }
 
-    @GetMapping("/changePhone")
+    @GetMapping("changePhone")
     public String changePhone(Principal principal,
                               Model model){
         String username = principal.getName();
@@ -183,7 +185,7 @@ public class MemberController {
         return "changePhone";
     }
 
-    @PostMapping("/changePhone")
+    @PostMapping("changePhone")
     public String changePhone(Principal principal,
                               @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
                               Model model){
@@ -199,7 +201,7 @@ public class MemberController {
         return "changePhone";
     }
 
-    @GetMapping("/wordcloud")
+    @GetMapping("wordcloud")
     public String wordcloud(Principal principal,
                             Model model){
         String username = principal.getName();
@@ -209,7 +211,7 @@ public class MemberController {
     }
 
 
-    @RequestMapping(value = "/wordCloud", method = RequestMethod.GET)
+    @RequestMapping(value = "wordCloud", method = RequestMethod.GET)
     public void wordCloud(HttpServletResponse res, HttpServletRequest req,
                           Principal principal,
                           Model model) throws IOException {
@@ -250,7 +252,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/member/email-auth")
+    @GetMapping("member/email-auth")
     public String emailAuth(Model model, HttpServletRequest request) {
 
         String uuid = request.getParameter("id");
@@ -264,19 +266,13 @@ public class MemberController {
         //email_auth.html에서 result의 boolean타입을 활용해 뷰를 출력한다.
     }
 
-    @GetMapping("/favorite_url")
+    @GetMapping("favorite_url")
     public String favorite_url( Model model,
-                                @RequestParam(name = "url", required = false, defaultValue = "") String url,
                                 Principal principal) {
         String userName = principal.getName();
         model.addAttribute("username", userName);
 
         String favoriteURL = "";
-
-
-        if (!url.equals(memberService.getDbFavoriteURL(userName).get(0))&&!url.equals(memberService.getDbFavoriteURL(userName).get(1))&&!url.equals(memberService.getDbFavoriteURL(userName).get(2))&&!url.equals(memberService.getDbFavoriteURL(userName).get(3))&&!url.equals(memberService.getDbFavoriteURL(userName).get(4))){
-            memberService.setDbFavoriteURL(url,userName);
-        }
 
         boolean isTrue1 = true;
         boolean isTrue2 = true;
@@ -476,7 +472,7 @@ public class MemberController {
         return "favorite_url";
     }
 
-    @PostMapping("/favorite_url")
+    @PostMapping("favorite_url")
     public String search_result(@RequestParam(name = "removeAllUrl", required = false, defaultValue = "") String removeAllUrl,
                                 @RequestParam(name = "removeUrl1", required = false, defaultValue = "") String removeUrl1,
                                 @RequestParam(name = "removeUrl2", required = false, defaultValue = "") String removeUrl2,
@@ -707,7 +703,7 @@ public class MemberController {
         return "favorite_url";
     }
 
-    @GetMapping("/calendarFavoriteUrl")
+    @GetMapping("calendarFavoriteUrl")
     public String calendarFavoriteUrl( Model model,
                                        @RequestParam(name = "url", required = false, defaultValue = "") String url,
                                        Principal principal) {
@@ -857,7 +853,7 @@ public class MemberController {
         return "calendarFavoriteUrl";
     }
 
-    @PostMapping("/calendarFavoriteUrl")
+    @PostMapping("calendarFavoriteUrl")
     public String calendarFavoriteUrl(@RequestParam(name = "removeAllUrl", required = false, defaultValue = "") String removeAllUrl,
                                       @RequestParam(name = "removeUrl1", required = false, defaultValue = "") String removeUrl1,
                                       @RequestParam(name = "removeUrl2", required = false, defaultValue = "") String removeUrl2,
@@ -1028,7 +1024,7 @@ public class MemberController {
         return "calendarFavoriteUrl";
     }
 
-    @GetMapping("/index_result")
+    @GetMapping("index_result")
     public String search(Principal principal,
                          @RequestParam(name = "query1", required = false, defaultValue = "") String query1,
                          @RequestParam(name = "query2", required = false, defaultValue = "") String query2,
@@ -1047,13 +1043,10 @@ public class MemberController {
                          @RequestParam(name = "device2", required = false, defaultValue = "") String coverage2,
                          @RequestParam(name = "gender2", required = false, defaultValue = "") String gender2,
                          @RequestParam(name = "age2", required = false, defaultValue = "") String[] age2,
+                         @RequestParam(name = "url", required = false, defaultValue = "") String url,
                          Model model) throws JSONException {
         String userName = principal.getName();
 
-        System.out.println(date1);
-        System.out.println(date2);
-        System.out.println(date3);
-        System.out.println(date4);
         if (!query1.equals("")){
             String jsonString1 = memberService.NaverApiResponse(query1, query2, query3, query4, query5, date1, date2, timeunit, coverage, gender, age);
             String jsonString2 = memberService.NaverApiResponse(query1, query2, query3, query4, query5, date3, date4, timeunit2, coverage2, gender2, age2);
@@ -1122,73 +1115,81 @@ public class MemberController {
             }
         }
 
+        if (!url.equals("")&&!url.equals("http://localhost:8080/index_result")&&!memberService.getDbFavoriteURL(userName).contains(url)){
+            memberService.setDbFavoriteURL(url,userName);
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+
+            return "redirect:" + builder.toUriString();
+        }
+
+        // Return the view name to render (index_result.html in this case)
         return "index_result";
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String home() {
         return "index";
     }
 
-    @GetMapping("/index_login_success")
+    @GetMapping("index_login_success")
     public String home_success(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "index_login_success";
     }
-    @GetMapping("/about_success")
+    @GetMapping("about_success")
     public String home_about_success(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "about_success";
     }
 
-    @GetMapping("/service_success")
+    @GetMapping("service_success")
     public String home_service_success(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "Analysis_success";
     }
 
-    @GetMapping("/team_success")
+    @GetMapping("team_success")
     public String home_team_success(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "team_success";
     }
 
-    @GetMapping("/manual_success")
+    @GetMapping("manual_success")
     public String home_why_success(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "manual_success";
     }
 
-    @GetMapping("/about")
+    @GetMapping("about")
     public String home_about(Principal principal, Model model) {
 
         return "about";
     }
 
-    @GetMapping("/team")
+    @GetMapping("team")
     public String home_team(Principal principal, Model model) {
 
         return "team";
     }
 
-    @GetMapping("/service")
+    @GetMapping("service")
     public String home_service(Principal principal, Model model) {
 
         return "Analysis";
     }
 
-    @GetMapping("/manual")
+    @GetMapping("manual")
     public String home_why(Principal principal, Model model) {
 
         return "manual";
     }
 
-    @GetMapping("/member/reset/password")
+    @GetMapping("member/reset/password")
     public String resetPassword(Model model, HttpServletRequest request) {
         String uuid = request.getParameter("id");
 
@@ -1199,7 +1200,7 @@ public class MemberController {
         return "member/reset_password";
     }
 
-    @PostMapping("/member/reset/password")
+    @PostMapping("member/reset/password")
     public String resetPasswordSubmit(Model model, ResetPasswordInput parameter) {
         boolean result = false;
         try{
@@ -1212,20 +1213,20 @@ public class MemberController {
         return "member/reset_password_result";
     }
 
-    @GetMapping("/member/info")
+    @GetMapping("member/info")
     public String memberInfo() {
 
         return "member/info";
     }
 
-    @GetMapping("/changePwd")
+    @GetMapping("changePwd")
     public String changePwd(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("username", username);
         return "changePwd";
     }
 
-    @PostMapping("/changePwd")
+    @PostMapping("changePwd")
     public String changePwd(Model model, ResetPasswordInput parameter) {
 
         boolean result = false;
@@ -1239,13 +1240,13 @@ public class MemberController {
         return "member/change_password_result";
     }
 
-    @GetMapping("/member/find/password")
+    @GetMapping("member/find/password")
     public String findPassword() {
 
         return "member/find_password";
     }
 
-    @PostMapping("/member/find/password")
+    @PostMapping("member/find/password")
     public String findPasswordSubmit(Model model, ResetPasswordInput parameter) {
 
         boolean result = false;
