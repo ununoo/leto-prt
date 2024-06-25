@@ -72,9 +72,15 @@ public class MemberController {
                            @RequestParam(name = "device", required = false, defaultValue = "") String coverage,
                            @RequestParam(name = "gender", required = false, defaultValue = "") String gender,
                            @RequestParam(name = "age", required = false, defaultValue = "") String[] age,
+                           @RequestParam(name = "url", required = false, defaultValue = "") String url,
                            Model model) throws JSONException {
+
+
         String username = principal.getName();
+
+
         model.addAttribute("username", username);
+
         if (!query1.equals("")){
             String jsonString = memberService.NaverApiResponse(query1, query2, query3, query4, query5, date1, date2, timeunit, coverage, gender, age);
             ResultMaps result1Maps = memberService.parseJson(jsonString);
@@ -129,6 +135,13 @@ public class MemberController {
                 isTrueAll = false;
                 model.addAttribute("isTrueAll", isTrueAll);
             }
+        }
+
+        if (!url.equals("")&&!memberService.getDbCalFavoriteURL(username).contains(url)){
+            memberService.setDbCalFavoriteURL(url,username);
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+
+            return "redirect:" + builder.toUriString();
         }
 
         return "calendar";
@@ -296,52 +309,52 @@ public class MemberController {
 
             if (!favoriteURL.equals("")){
                 for (int j = 0; j < arrayList2.size(); j++) {
-                    if (arrayList2.get(j).equals("1")){
+                    if (arrayList2.get(j).equals("1")||arrayList2.get(j).equals("1#")){
                         arrayList2.set(j,"~12");
-                    } else if (arrayList2.get(j).equals("2")) {
+                    } else if (arrayList2.get(j).equals("2")||arrayList2.get(j).equals("2#")) {
                         arrayList2.set(j,"13~18");
-                    } else if (arrayList2.get(j).equals("3")) {
+                    } else if (arrayList2.get(j).equals("3")||arrayList2.get(j).equals("3#")) {
                         arrayList2.set(j,"19~24");
-                    } else if (arrayList2.get(j).equals("4")) {
+                    } else if (arrayList2.get(j).equals("4")||arrayList2.get(j).equals("4#")) {
                         arrayList2.set(j,"25~29");
-                    } else if (arrayList2.get(j).equals("5")) {
+                    } else if (arrayList2.get(j).equals("5")||arrayList2.get(j).equals("5#")) {
                         arrayList2.set(j,"30~34");
-                    } else if (arrayList2.get(j).equals("6")) {
+                    } else if (arrayList2.get(j).equals("6")||arrayList2.get(j).equals("6#")) {
                         arrayList2.set(j,"35~39");
-                    } else if (arrayList2.get(j).equals("7")) {
+                    } else if (arrayList2.get(j).equals("7")||arrayList2.get(j).equals("7#")) {
                         arrayList2.set(j,"40~44");
-                    } else if (arrayList2.get(j).equals("8")) {
+                    } else if (arrayList2.get(j).equals("8")||arrayList2.get(j).equals("8#")) {
                         arrayList2.set(j,"45~49");
-                    } else if (arrayList2.get(j).equals("9")) {
+                    } else if (arrayList2.get(j).equals("9")||arrayList2.get(j).equals("9#")) {
                         arrayList2.set(j,"50~54");
-                    } else if (arrayList2.get(j).equals("10")) {
+                    } else if (arrayList2.get(j).equals("10")||arrayList2.get(j).equals("10#")) {
                         arrayList2.set(j,"54~59");
-                    } else if (arrayList2.get(j).equals("11")) {
+                    } else if (arrayList2.get(j).equals("11")||arrayList2.get(j).equals("11#")) {
                         arrayList2.set(j,"60~");
                     }
                 }
                 for (int j = 0; j < arrayList3.size(); j++) {
-                    if (arrayList3.get(j).equals("1")){
+                    if (arrayList3.get(j).equals("1")||arrayList3.get(j).equals("1#")){
                         arrayList3.set(j,"~12");
-                    } else if (arrayList3.get(j).equals("2")) {
+                    } else if (arrayList3.get(j).equals("2")||arrayList3.get(j).equals("2#")) {
                         arrayList3.set(j,"13~18");
-                    } else if (arrayList3.get(j).equals("3")) {
+                    } else if (arrayList3.get(j).equals("3")||arrayList3.get(j).equals("3#")) {
                         arrayList3.set(j,"19~24");
-                    } else if (arrayList3.get(j).equals("4")) {
+                    } else if (arrayList3.get(j).equals("4")||arrayList3.get(j).equals("4#")) {
                         arrayList3.set(j,"25~29");
-                    } else if (arrayList3.get(j).equals("5")) {
+                    } else if (arrayList3.get(j).equals("5")||arrayList3.get(j).equals("5#")) {
                         arrayList3.set(j,"30~34");
-                    } else if (arrayList3.get(j).equals("6")) {
+                    } else if (arrayList3.get(j).equals("6")||arrayList3.get(j).equals("6#")) {
                         arrayList3.set(j,"35~39");
-                    } else if (arrayList3.get(j).equals("7")) {
+                    } else if (arrayList3.get(j).equals("7")||arrayList3.get(j).equals("7#")) {
                         arrayList3.set(j,"40~44");
-                    } else if (arrayList3.get(j).equals("8")) {
+                    } else if (arrayList3.get(j).equals("8")||arrayList3.get(j).equals("8#")) {
                         arrayList3.set(j,"45~49");
-                    } else if (arrayList3.get(j).equals("9")) {
+                    } else if (arrayList3.get(j).equals("9")||arrayList3.get(j).equals("9#")) {
                         arrayList3.set(j,"50~54");
-                    } else if (arrayList3.get(j).equals("10")) {
+                    } else if (arrayList3.get(j).equals("10")||arrayList3.get(j).equals("10#")) {
                         arrayList3.set(j,"54~59");
-                    } else if (arrayList3.get(j).equals("11")) {
+                    } else if (arrayList3.get(j).equals("11")||arrayList3.get(j).equals("11#")) {
                         arrayList3.set(j,"60~");
                     }
                 }
@@ -527,52 +540,52 @@ public class MemberController {
             }
             if (!favoriteURL.equals("")){
                 for (int j = 0; j < arrayList2.size(); j++) {
-                    if (arrayList2.get(j).equals("1")){
+                    if (arrayList2.get(j).equals("1")||arrayList2.get(j).equals("1#")){
                         arrayList2.set(j,"~12");
-                    } else if (arrayList2.get(j).equals("2")) {
+                    } else if (arrayList2.get(j).equals("2")||arrayList2.get(j).equals("2#")) {
                         arrayList2.set(j,"13~18");
-                    } else if (arrayList2.get(j).equals("3")) {
+                    } else if (arrayList2.get(j).equals("3")||arrayList2.get(j).equals("3#")) {
                         arrayList2.set(j,"19~24");
-                    } else if (arrayList2.get(j).equals("4")) {
+                    } else if (arrayList2.get(j).equals("4")||arrayList2.get(j).equals("4#")) {
                         arrayList2.set(j,"25~29");
-                    } else if (arrayList2.get(j).equals("5")) {
+                    } else if (arrayList2.get(j).equals("5")||arrayList2.get(j).equals("5#")) {
                         arrayList2.set(j,"30~34");
-                    } else if (arrayList2.get(j).equals("6")) {
+                    } else if (arrayList2.get(j).equals("6")||arrayList2.get(j).equals("6#")) {
                         arrayList2.set(j,"35~39");
-                    } else if (arrayList2.get(j).equals("7")) {
+                    } else if (arrayList2.get(j).equals("7")||arrayList2.get(j).equals("7#")) {
                         arrayList2.set(j,"40~44");
-                    } else if (arrayList2.get(j).equals("8")) {
+                    } else if (arrayList2.get(j).equals("8")||arrayList2.get(j).equals("8#")) {
                         arrayList2.set(j,"45~49");
-                    } else if (arrayList2.get(j).equals("9")) {
+                    } else if (arrayList2.get(j).equals("9")||arrayList2.get(j).equals("9#")) {
                         arrayList2.set(j,"50~54");
-                    } else if (arrayList2.get(j).equals("10")) {
+                    } else if (arrayList2.get(j).equals("10")||arrayList2.get(j).equals("10#")) {
                         arrayList2.set(j,"54~59");
-                    } else if (arrayList2.get(j).equals("11")) {
+                    } else if (arrayList2.get(j).equals("11")||arrayList2.get(j).equals("11#")) {
                         arrayList2.set(j,"60~");
                     }
                 }
                 for (int j = 0; j < arrayList3.size(); j++) {
-                    if (arrayList3.get(j).equals("1")){
+                    if (arrayList3.get(j).equals("1")||arrayList3.get(j).equals("1#")){
                         arrayList3.set(j,"~12");
-                    } else if (arrayList3.get(j).equals("2")) {
+                    } else if (arrayList3.get(j).equals("2")||arrayList3.get(j).equals("2#")) {
                         arrayList3.set(j,"13~18");
-                    } else if (arrayList3.get(j).equals("3")) {
+                    } else if (arrayList3.get(j).equals("3")||arrayList3.get(j).equals("3#")) {
                         arrayList3.set(j,"19~24");
-                    } else if (arrayList3.get(j).equals("4")) {
+                    } else if (arrayList3.get(j).equals("4")||arrayList3.get(j).equals("4#")) {
                         arrayList3.set(j,"25~29");
-                    } else if (arrayList3.get(j).equals("5")) {
+                    } else if (arrayList3.get(j).equals("5")||arrayList3.get(j).equals("5#")) {
                         arrayList3.set(j,"30~34");
-                    } else if (arrayList3.get(j).equals("6")) {
+                    } else if (arrayList3.get(j).equals("6")||arrayList3.get(j).equals("6#")) {
                         arrayList3.set(j,"35~39");
-                    } else if (arrayList3.get(j).equals("7")) {
+                    } else if (arrayList3.get(j).equals("7")||arrayList3.get(j).equals("7#")) {
                         arrayList3.set(j,"40~44");
-                    } else if (arrayList3.get(j).equals("8")) {
+                    } else if (arrayList3.get(j).equals("8")||arrayList3.get(j).equals("8#")) {
                         arrayList3.set(j,"45~49");
-                    } else if (arrayList3.get(j).equals("9")) {
+                    } else if (arrayList3.get(j).equals("9")||arrayList3.get(j).equals("9#")) {
                         arrayList3.set(j,"50~54");
-                    } else if (arrayList3.get(j).equals("10")) {
+                    } else if (arrayList3.get(j).equals("10")||arrayList3.get(j).equals("10#")) {
                         arrayList3.set(j,"54~59");
-                    } else if (arrayList3.get(j).equals("11")) {
+                    } else if (arrayList3.get(j).equals("11")||arrayList3.get(j).equals("11#")) {
                         arrayList3.set(j,"60~");
                     }
                 }
@@ -705,15 +718,10 @@ public class MemberController {
 
     @GetMapping("calendarFavoriteUrl")
     public String calendarFavoriteUrl( Model model,
-                                       @RequestParam(name = "url", required = false, defaultValue = "") String url,
                                        Principal principal) {
         String userName = principal.getName();
         model.addAttribute("username", userName);
         String favoriteURL = "";
-
-        if (!url.equals(memberService.getDbCalFavoriteURL(userName).get(0))&&!url.equals(memberService.getDbCalFavoriteURL(userName).get(1))&&!url.equals(memberService.getDbCalFavoriteURL(userName).get(2))&&!url.equals(memberService.getDbCalFavoriteURL(userName).get(3))&&!url.equals(memberService.getDbCalFavoriteURL(userName).get(4))){
-            memberService.setDbCalFavoriteURL(url,userName);
-        }
 
         boolean isTrue1 = true;
         boolean isTrue2 = true;
@@ -732,27 +740,27 @@ public class MemberController {
 
             if (!favoriteURL.equals("")){
                 for (int j = 0; j < arrayList2.size(); j++) {
-                    if (arrayList2.get(j).equals("1")){
+                    if (arrayList2.get(j).equals("1")||arrayList2.get(j).equals("1#")){
                         arrayList2.set(j,"~12");
-                    } else if (arrayList2.get(j).equals("2")) {
+                    } else if (arrayList2.get(j).equals("2")||arrayList2.get(j).equals("2#")) {
                         arrayList2.set(j,"13~18");
-                    } else if (arrayList2.get(j).equals("3")) {
+                    } else if (arrayList2.get(j).equals("3")||arrayList2.get(j).equals("3#")) {
                         arrayList2.set(j,"19~24");
-                    } else if (arrayList2.get(j).equals("4")) {
+                    } else if (arrayList2.get(j).equals("4")||arrayList2.get(j).equals("4#")) {
                         arrayList2.set(j,"25~29");
-                    } else if (arrayList2.get(j).equals("5")) {
+                    } else if (arrayList2.get(j).equals("5")||arrayList2.get(j).equals("5#")) {
                         arrayList2.set(j,"30~34");
-                    } else if (arrayList2.get(j).equals("6")) {
+                    } else if (arrayList2.get(j).equals("6")||arrayList2.get(j).equals("6#")) {
                         arrayList2.set(j,"35~39");
-                    } else if (arrayList2.get(j).equals("7")) {
+                    } else if (arrayList2.get(j).equals("7")||arrayList2.get(j).equals("7#")) {
                         arrayList2.set(j,"40~44");
-                    } else if (arrayList2.get(j).equals("8")) {
+                    } else if (arrayList2.get(j).equals("8")||arrayList2.get(j).equals("8#")) {
                         arrayList2.set(j,"45~49");
-                    } else if (arrayList2.get(j).equals("9")) {
+                    } else if (arrayList2.get(j).equals("9")||arrayList2.get(j).equals("9#")) {
                         arrayList2.set(j,"50~54");
-                    } else if (arrayList2.get(j).equals("10")) {
+                    } else if (arrayList2.get(j).equals("10")||arrayList2.get(j).equals("10#")) {
                         arrayList2.set(j,"54~59");
-                    } else if (arrayList2.get(j).equals("11")) {
+                    } else if (arrayList2.get(j).equals("11")||arrayList2.get(j).equals("11#")) {
                         arrayList2.set(j,"60~");
                     }
                 }
@@ -903,27 +911,27 @@ public class MemberController {
 
             if (!favoriteURL.equals("")){
                 for (int j = 0; j < arrayList2.size(); j++) {
-                    if (arrayList2.get(j).equals("1")){
+                    if (arrayList2.get(j).equals("1")||arrayList2.get(j).equals("1#")){
                         arrayList2.set(j,"~12");
-                    } else if (arrayList2.get(j).equals("2")) {
+                    } else if (arrayList2.get(j).equals("2")||arrayList2.get(j).equals("2#")) {
                         arrayList2.set(j,"13~18");
-                    } else if (arrayList2.get(j).equals("3")) {
+                    } else if (arrayList2.get(j).equals("3")||arrayList2.get(j).equals("3#")) {
                         arrayList2.set(j,"19~24");
-                    } else if (arrayList2.get(j).equals("4")) {
+                    } else if (arrayList2.get(j).equals("4")||arrayList2.get(j).equals("4#")) {
                         arrayList2.set(j,"25~29");
-                    } else if (arrayList2.get(j).equals("5")) {
+                    } else if (arrayList2.get(j).equals("5")||arrayList2.get(j).equals("5#")) {
                         arrayList2.set(j,"30~34");
-                    } else if (arrayList2.get(j).equals("6")) {
+                    } else if (arrayList2.get(j).equals("6")||arrayList2.get(j).equals("6#")) {
                         arrayList2.set(j,"35~39");
-                    } else if (arrayList2.get(j).equals("7")) {
+                    } else if (arrayList2.get(j).equals("7")||arrayList2.get(j).equals("7#")) {
                         arrayList2.set(j,"40~44");
-                    } else if (arrayList2.get(j).equals("8")) {
+                    } else if (arrayList2.get(j).equals("8")||arrayList2.get(j).equals("8#")) {
                         arrayList2.set(j,"45~49");
-                    } else if (arrayList2.get(j).equals("9")) {
+                    } else if (arrayList2.get(j).equals("9")||arrayList2.get(j).equals("9#")) {
                         arrayList2.set(j,"50~54");
-                    } else if (arrayList2.get(j).equals("10")) {
+                    } else if (arrayList2.get(j).equals("10")||arrayList2.get(j).equals("10#")) {
                         arrayList2.set(j,"54~59");
-                    } else if (arrayList2.get(j).equals("11")) {
+                    } else if (arrayList2.get(j).equals("11")||arrayList2.get(j).equals("11#")) {
                         arrayList2.set(j,"60~");
                     }
                 }
